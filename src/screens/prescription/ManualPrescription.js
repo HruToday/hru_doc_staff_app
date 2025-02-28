@@ -145,7 +145,7 @@ const ManualPrescription = ({ navigation, route }) => {
       Alert.alert('Please add prescription files ');
       return;
     }
-    const token = userdata?.data?.auth_token;
+    const token = userdata?.data?.token;
 
     const credentials = {
       token: token,
@@ -178,6 +178,7 @@ const ManualPrescription = ({ navigation, route }) => {
       customFieldFiveValue: [],
       customFieldSixValue: [],
     };
+console.log(credentials);
 
     try {
       const response = await vitalsubmit(credentials);
@@ -225,7 +226,7 @@ const ManualPrescription = ({ navigation, route }) => {
       Alert.alert('Report Name is required.');
       return;
     }
-    const token = userdata?.data?.auth_token;
+    const token = userdata?.data?.token;
     const credentials = {
       token: token,
       formData: {
@@ -236,10 +237,13 @@ const ManualPrescription = ({ navigation, route }) => {
         path: file.base64Data,
       })),
     };
+console.log("credentials",credentials);
 
     try {
       setLoading(true);
       const response = await ReportUpload(credentials);
+      console.log("response",response);
+      
       
 
 
@@ -268,7 +272,7 @@ const ManualPrescription = ({ navigation, route }) => {
       Alert.alert('No files to upload.');
       return;
     }
-    const token = userdata?.data?.auth_token;
+    const token = userdata?.data?.token;
     const credentials = {
       token: token,
       appointmentId: appointmentId,
@@ -276,10 +280,12 @@ const ManualPrescription = ({ navigation, route }) => {
         path: file.base64Data,
       })),
     };
+console.log("credentials",credentials);
 
     try {
       setLoading(true);
       const response = await prescriptionUpload(credentials);
+console.log("response",response);
 
 
       if (response.msg === 'Prescriptions uploaded successfully.') {

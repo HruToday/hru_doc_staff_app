@@ -6,6 +6,7 @@ import { AppContext } from '../context _api/Context';
 
 const Header = () => {
   const { userdata, clearUserData } = useContext(AppContext);
+ console.log("userdata",userdata);
  
   const handleLogout = () => {
     Alert.alert(
@@ -25,11 +26,12 @@ const Header = () => {
       { cancelable: true }
     );
   };
-  const userName = userdata?.data?.name || 'User';
+  const userName = `${userdata?.data?.firstName || ''} ${userdata?.data?.lastName || ''}`.trim() || 'User';
 
-  const cleanedUrl = userdata?.data?.profile_pic.replace('/doctor/:', '/doctor/');
-  const profilePic =
-  cleanedUrl|| 'https://via.placeholder.com/50';
+
+ 
+   const profilePic =
+   userdata?.imgUrl|| 'https://via.placeholder.com/50';
    
 
   return (

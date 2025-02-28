@@ -34,7 +34,7 @@ const Changepassword = ({ navigation }) => {
     }
 
     const credentials = {
-      phone_no: forgetnumber,
+      loginId: forgetnumber,
       otp,
       password: confimpassword,
     };

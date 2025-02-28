@@ -251,10 +251,10 @@ const Vitals = ({ navigation, route }) => {
               title={'← Preview'}
             />
             <CustomButton
-              style={styles.rightButton}
-              title={gendertoggle === "FEMALE" ? "LMP →" : "Complaints →"}
-              onPress={handleNavigation}
-            />
+          style={styles.rightButton}
+          title={'Next →'}
+          onPress={()=>{ navigation.navigate('Prescriptions', {  appointmentId: appointmentId,  });}}
+        />
           </View>
         </KeyboardAvoidingView>
       </View>

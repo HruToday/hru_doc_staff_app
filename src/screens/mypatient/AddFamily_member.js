@@ -68,7 +68,7 @@ const AddFamily_member = ({ navigation }) => {
   const defaultImageUrl =
     'https://beta.hru.today/patient/:673dc3a68223d1d1cded960a/673dc3a68223d1d1cded960c/display.image';
 
-  const token = userdata?.data?.auth_token;
+  const token = userdata?.data?.token;
   const [selectedValue, setSelectedValue] = useState('--Select--');
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [isHealthSchemeDropdownVisible, setHealthSchemeDropdownVisible] =
@@ -145,18 +145,19 @@ const AddFamily_member = ({ navigation }) => {
       formData: formData,
     };
     
+console.log("credentials",credentials);
 
 
-    // try {
-    //   const response = await addNewPatientFamilyMember(credentials);
-    //   if (response.msg === 'Ok') {
-    //     navigation.navigate('familymember');
-    //   } else {
-    //     Alert.alert(response.msg);
-    //   }
-    // } catch (error) {
-    //   console.error(error.message);
-    // }
+    try {
+      const response = await addNewPatientFamilyMember(credentials);
+      if (response.msg === 'Ok') {
+        navigation.navigate('familymember');
+      } else {
+        Alert.alert(response.msg);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   const handlePhotoPick = pickedPhoto => {

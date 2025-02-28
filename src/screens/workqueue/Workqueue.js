@@ -29,6 +29,7 @@ import BookingConfirmationModal from '../../components/OnlineBookingModel';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PdfViewer from '../../components/PdfViewer';
 import DropDowns from '../../components/DropDowns';
+import Header from '../../components/Header';
 const Workqueue = ({ navigation }) => {
   const {
 
@@ -139,6 +140,7 @@ const Workqueue = ({ navigation }) => {
 
     try {
       const response = await noshow(credentials);
+    
       if (response.msg === "Ok") {
         setRefreshWorkQueue(prev => !prev);
       }
@@ -470,6 +472,7 @@ const Workqueue = ({ navigation }) => {
 
 
 
+
   const sendformdate = new Date(fromDate);
   const sendtodate = new Date(toDate);
   const prevStartDate = useRef(null);
@@ -492,7 +495,7 @@ const Workqueue = ({ navigation }) => {
 
 
   const handlecancel = async item => {
-    const token = userdata?.data?.auth_token;
+    const token = userdata?.data?.token;
     const credentials = {
       token: token,
       cancelCheckIn: true,
@@ -500,9 +503,12 @@ const Workqueue = ({ navigation }) => {
       status: -2,
       appointmentId: item,
     };
+console.log("credentials",credentials);
 
     try {
       const response = await cancelCheckIn(credentials);
+      console.log("response",response);
+      
       if (response.msg === 'Ok') {
         setRefreshWorkQueue(prev => !prev);
         // workqueueCencelbuttons(item, '✖');
@@ -715,7 +721,7 @@ const Workqueue = ({ navigation }) => {
 
   return (
     <>
-
+ <Header />
       <SecondHeader
         title="Work Queue"
         topBarStyle={{ justifyContent: 'space-between', gap: 25 }}

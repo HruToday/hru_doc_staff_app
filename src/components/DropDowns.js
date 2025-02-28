@@ -29,7 +29,7 @@ const DropDowns = () => {
             >
               <Picker.Item label="All" value="" />
               {doctors.map((doctor) => (
-                <Picker.Item key={doctor._id} label={doctor.name} value={doctor._id} />
+                <Picker.Item key={doctor._id} label={doctor.doctorName} value={doctor._id} />
               ))}
             </Picker>
             <MaterialCommunityIcons name="chevron-down" size={20} style={styles.dropdown_icon} />

@@ -56,24 +56,33 @@ export const getworkqueue = async (credentials) => {
     throw error; 
   }
 };
-
+//done
 export const savenewPatients = async (credentials) => {
   try {
     const data = await apiClient('savenewpatient', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('savenewPatients  Error:', error.message);
+    console.error('savenewpatient  Error:', error.message);
     throw error; 
   }
 };
 
-
+//Done name or mobile number search
 export const fetchPatientList = async (credentials) => {
   try {
-    const data = await apiClient('fetchPatientList', 'POST', credentials);
+    const data = await apiClient('search-patient-by-name-or-number.json', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('fetchPatientList  Error:', error.message);
+    console.error('search-patient-by-name-or-number.json  Error:', error.message);
+    throw error; 
+  }
+};
+export const fetchPatientMobileList = async (credentials) => {
+  try {
+    const data = await apiClient('search-patient-existence.json', 'POST', credentials);
+    return data; 
+  } catch (error) {
+    console.error('search-patient-existence.json  Error:', error.message);
     throw error; 
   }
 };
@@ -90,10 +99,10 @@ export const mypatientgeninfo = async (credentials) => {
 
 export const getpatientfamily = async (credentials) => {
   try {
-    const data = await apiClient('getpatientfamily', 'POST', credentials);
+    const data = await apiClient('get-family-list.json', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('getpatientfamily  Error:', error.message);
+    console.error('get-family-list.json  Error:', error.message);
     throw error; 
   }
 };
@@ -128,19 +137,20 @@ export const searchpatientbyid = async (credentials) => {
 };
 export const getnextWeekClinicTimeSlot = async (credentials) => {
   try {
-    const data = await apiClient('getnextWeekClinicTimeSlot', 'POST', credentials);
+    const data = await apiClient('slots-for-next-set-for-staff.json', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('getnextWeekClinicTimeSlot  Error:', error.message);
+    console.error('slots-for-next-set-for-staff.json  Error:', error.message);
     throw error; 
   }
 };
+//Done
 export const addNewPatientFamilyMember = async (credentials) => {
   try {
-    const data = await apiClient('addNewPatientFamilyMember', 'POST', credentials);
+    const data = await apiClient('add-patient-family-member.json', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('addNewPatientFamilyMember  Error:', error.message);
+    console.error('add-patient-family-member.json  Error:', error.message);
     throw error; 
   }
 };
@@ -161,10 +171,10 @@ export const bookappoforPatient = async (credentials) => {
 
 export const vitalsubmit = async (credentials) => {
   try {
-    const data = await apiClient('vitalsubmit', 'POST', credentials);
+    const data = await apiClient('save-vital-prescription-details.json', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('vitalsubmit  Error:', error.message);
+    console.error('save-vital-prescription-details.json  Error:', error.message);
     throw error; 
   }
 };
@@ -177,15 +187,17 @@ export const upcomingAppointments = async (credentials) => {
     throw error; 
   }
 };
+//Done
 export const ReportUpload = async (credentials) => {
   try {
-    const data = await apiClient('ReportUpload', 'POST', credentials);
+    const data = await apiClient('reportUpload', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('ReportUpload  Error:', error.message);
+    console.error('reportUpload  Error:', error.message);
     throw error; 
   }
 };
+//Done
 export const prescriptionUpload = async (credentials) => {
   try {
     const data = await apiClient('prescriptionUpload', 'POST', credentials);
@@ -224,21 +236,22 @@ export const patientAppointmentHistory = async (credentials) => {
     throw error; 
   }
 };
+//Done
 export const updatePatientDetails = async (credentials) => {
   try {
-    const data = await apiClient('updatePatientDetails', 'POST', credentials);
+    const data = await apiClient('update-patient.json', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('updatePatientDetails  Error:', error.message);
+    console.error('update-patient.json  Error:', error.message);
     throw error; 
   }
 };
 export const cancelCheckIn = async (credentials) => {
   try {
-    const data = await apiClient('cancelCheckIn', 'POST', credentials);
+    const data = await apiClient('save-cancelCheckIn-details.json', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('cancelCheckIn  Error:', error.message);
+    console.error('save-cancelCheckIn-details.json  Error:', error.message);
     throw error; 
   }
 };
@@ -251,9 +264,10 @@ export const checkin = async (credentials) => {
     throw error; 
   }
 };
+//Done
 export const noshow = async (credentials) => {
   try {
-    const data = await apiClient('noshow', 'POST', credentials);
+    const data = await apiClient('save-noShow-details.json', 'POST', credentials);
     return data; 
   } catch (error) {
     console.error('noshow  Error:', error.message);

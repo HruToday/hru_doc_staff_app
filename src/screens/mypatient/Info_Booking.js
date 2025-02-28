@@ -19,12 +19,12 @@ import {
 } from '../../api/authService';
 import uuid from 'react-native-uuid';
 const Info_Booking = ({navigation}) => {
-  const {refreshPage,userdata, updateFamilyDetails, selectedLocationId, booklaterData} =
+  const {selectedDoctor,refreshPage,userdata, updateFamilyDetails, selectedLocationId, booklaterData} =
     useContext(AppContext);
   const route = useRoute();
   const {selectedItem} = route.params;
   const uniqueId = uuid.v4();
-  const token = userdata?.data?.auth_token;
+  const token = userdata?.data?.token;
   const { mobile_no, profile_pic, value} = selectedItem;
   const [showdata, setShowData] = useState([]);
 
@@ -35,12 +35,18 @@ const Info_Booking = ({navigation}) => {
     const fetchdata = async () => {
       const credentials = {
         token,
-        _id: selectedItem.value._id,
-        patient_id: selectedItem.value.profileId,
+        patientId: selectedItem.value._id,
+        profileId: selectedItem.value.profileId,
+        doctorId: selectedDoctor.length > 0 ? selectedDoctor : "ALL",
+        doctorIds: selectedDoctor.length > 0 ? selectedDoctor : "ALL",
       };
+      console.log("credentials",credentials);
+      
 
       const response = await mypatientgeninfo(credentials);
-      setShowData(response.docs[0]);
+      console.log("response",response);
+      
+      setShowData(response.doc);
     };
     fetchdata();
   }, []);
@@ -155,14 +161,14 @@ const Info_Booking = ({navigation}) => {
               <Icon name="tint" size={30} color="#5d6d7e" />
               <View style={styles.textContainer}>
                 <Text style={styles.labelText}>Blood Group</Text>
-                <Text style={styles.valueText}>{showdata.bloodGroup}</Text>
+                {/* <Text style={styles.valueText}>{showdata.bloodGroup}</Text> */}
               </View>
             </View>
             <View style={styles.rowItem}>
               <Icon name="user" size={30} color="#5d6d7e" />
               <View style={styles.textContainer}>
                 <Text style={styles.labelText}>HruId</Text>
-                <Text style={styles.valueText}>{showdata.hruId}</Text>
+                {/* <Text style={styles.valueText}>{showdata.hruId}</Text> */}
               </View>
             </View>
           </View>
@@ -171,16 +177,16 @@ const Info_Booking = ({navigation}) => {
               <Icon name="calendar" size={30} color="#5d6d7e" />
               <View style={styles.textContainer}>
                 <Text style={styles.labelText}>DOB</Text>
-                <Text style={styles.valueText}>
+                {/* <Text style={styles.valueText}>
                   {new Date(showdata.dob).toLocaleDateString()}
-                </Text>
+                </Text> */}
               </View>
             </View>
             <View style={styles.rowItem}>
               <Icon name="genderless" size={30} color="#5d6d7e" />
               <View style={styles.textContainer}>
                 <Text style={styles.labelText}>Gender</Text>
-                <Text style={styles.valueText}>{showdata.gender}</Text>
+                {/* <Text style={styles.valueText}>{showdata.gender}</Text> */}
               </View>
             </View>
           </View>

@@ -36,6 +36,7 @@ import { AppContext } from '../../context _api/Context';
 import {
   bookAppointmentNowPatient,
   fetchPatientList,
+  fetchPatientMobileList,
   savenewPatients,
 } from '../../api/authService';
 import PatientDetails_dropdown from '../../components/PatientDetails_dropdown';
@@ -48,7 +49,7 @@ import DropDowns from '../../components/DropDowns';
 const AddPatients = ({ navigation }) => {
 
 
-  const { refreshPage, userdata, selectedLocationId, booklaterData, updateFamilyDetails } = useContext(AppContext);
+  const {selectedDoctor, refreshPage, userdata, selectedLocationId, booklaterData, updateFamilyDetails } = useContext(AppContext);
   const skipParentProfile = userdata?.data?.skipParentProfile;
   const uniqueId = uuid.v4();
   const [dob, setDob] = useState('');
@@ -91,7 +92,7 @@ const AddPatients = ({ navigation }) => {
   const defaultImageUrl =
     'https://beta.hru.today/patient/:673dc3a68223d1d1cded960a/673dc3a68223d1d1cded960c/display.image';
 
-  const token = userdata?.data?.auth_token;
+  const token = userdata?.data?.token;
   const [selectedValue, setSelectedValue] = useState('--Select--');
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [responseData, setResponseData] = useState(null);
@@ -142,11 +143,16 @@ const AddPatients = ({ navigation }) => {
   useEffect(() => {
     if (debouncedSearchQuery) {
       const inputMedString = debouncedSearchQuery;
-      const credentials = { token, inputMedString };
+      const type = /^\d+$/.test(inputMedString) ? "phone" : "name";
+      const credentials = { token, value:inputMedString,   doctorId: selectedDoctor.length > 0 ? selectedDoctor : "ALL","type":type};
+
 
       const fetchData = async () => {
         try {
           const response = await fetchPatientList(credentials);
+        console.log(response);
+        
+          
           if (response.status) {
             setSearchResults(response.docs);
           } else {
@@ -162,16 +168,19 @@ const AddPatients = ({ navigation }) => {
     } else {
       setSearchResults([]);
     }
-  }, [debouncedSearchQuery]);
+  }, [debouncedSearchQuery,selectedDoctor]);
 
   useEffect(() => {
     if (debouncedMobileQuery) {
       const inputMedString = debouncedMobileQuery;
-      const credentials = { token, inputMedString };
+      const credentials = { token, mobile:inputMedString };
+console.log("credentials",credentials);
 
       const fetchData = async () => {
         try {
-          const response = await fetchPatientList(credentials);
+          const response = await fetchPatientMobileList(credentials);
+          console.log("response".response);
+          
           if (response.status) {
             mobileSearchResults(response.docs);
           } else {
@@ -238,12 +247,14 @@ const AddPatients = ({ navigation }) => {
     }
     const credentials = { token, ...formData };
 
+console.log("credentials",credentials);
 
 
 
     try {
       const response = await savenewPatients(credentials);
-      ;
+      console.log("response",response);
+      
 
       if (response.msg === 'Patient registered') {
         setFormData({

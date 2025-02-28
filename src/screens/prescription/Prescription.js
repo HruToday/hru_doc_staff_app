@@ -19,16 +19,7 @@ import PdfViewer from '../../components/PdfViewer';
 const rowData = [
   { name: 'Vitals', icon: 'document-text-outline' },
 
-  { name: 'LMP', icon: 'calendar-outline' },
-  { name: 'Complaints', icon: 'list-outline' },
-  { name: 'Diagnosis', icon: 'medkit-outline' },
-  { name: 'Procedures', icon: 'flask-outline' },
-  { name: 'Medication', icon: 'bandage-outline' },
-  { name: 'Lab Test', icon: 'pulse-outline' },
-  { name: 'Advice', icon: 'cloud-outline' },
-  { name: 'Diet', icon: 'eye-outline' },
-  { name: 'Follow up', icon: 'thermometer-outline' },
-  { name: 'Refer', icon: 'heart-outline' },
+ 
 
 ];
 
@@ -55,7 +46,7 @@ const { item, Digitalbutton_update, gendertoggle, GenderToggle, userdata, digita
   useEffect(() => {
     GenderToggle(gender)
   }, [gendertoggle])
-const token = userdata?.data?.auth_token;
+const token = userdata?.data?.token;
 const handleRowPress = row => {
     if (row.name == 'Vitals') {
       navigation.navigate('Vitals', {
@@ -63,36 +54,36 @@ const handleRowPress = row => {
       });
     }
 
-    if (row.name == 'Medication') {
-      navigation.navigate('Medication', { appointmentId: appointmentId });
-    }
-    if (row.name == 'Diagnosis') {
-      navigation.navigate('Diagnosis', { appointmentId: appointmentId });
-    }
-    if (row.name == 'Procedures') {
-      navigation.navigate('Procedures', { appointmentId: appointmentId });
-    }
-    if (row.name == 'Complaints') {
-      navigation.navigate('Complaints', { appointmentId: appointmentId });
-    }
-    if (row.name == 'Lab Test') {
-      navigation.navigate('lab_test', { appointmentId: appointmentId });
-    }
-    if (row.name == 'Diet') {
-      navigation.navigate('Diet', { appointmentId: appointmentId });
-    }
-    if (row.name == 'Refer') {
-      navigation.navigate('Refer', { appointmentId: appointmentId });
-    }
-    if (row.name == 'Follow up') {
-      navigation.navigate('FollowUp', { appointmentId: appointmentId, followupDays: followupDays });
-    }
-    if (row.name == 'Advice') {
-      navigation.navigate('Advice', { appointmentId: appointmentId });
-    }
-    if (row.name == 'LMP') {
-      navigation.navigate('lmp', { appointmentId: appointmentId });
-    }
+    // if (row.name == 'Medication') {
+    //   navigation.navigate('Medication', { appointmentId: appointmentId });
+    // }
+    // if (row.name == 'Diagnosis') {
+    //   navigation.navigate('Diagnosis', { appointmentId: appointmentId });
+    // }
+    // if (row.name == 'Procedures') {
+    //   navigation.navigate('Procedures', { appointmentId: appointmentId });
+    // }
+    // if (row.name == 'Complaints') {
+    //   navigation.navigate('Complaints', { appointmentId: appointmentId });
+    // }
+    // if (row.name == 'Lab Test') {
+    //   navigation.navigate('lab_test', { appointmentId: appointmentId });
+    // }
+    // if (row.name == 'Diet') {
+    //   navigation.navigate('Diet', { appointmentId: appointmentId });
+    // }
+    // if (row.name == 'Refer') {
+    //   navigation.navigate('Refer', { appointmentId: appointmentId });
+    // }
+    // if (row.name == 'Follow up') {
+    //   navigation.navigate('FollowUp', { appointmentId: appointmentId, followupDays: followupDays });
+    // }
+    // if (row.name == 'Advice') {
+    //   navigation.navigate('Advice', { appointmentId: appointmentId });
+    // }
+    // if (row.name == 'LMP') {
+    //   navigation.navigate('lmp', { appointmentId: appointmentId });
+    // }
 
 
   };
@@ -162,9 +153,9 @@ const handleRowPress = row => {
         customFieldFourValue: [],
         customFieldFiveValue: [],
         customFieldSixValue: [],
-        prescriptionStartDate: isoDate,
-        followupDays: digital_id?.followupDays || "",
-        followupUnit: "Day",
+        // prescriptionStartDate: isoDate,
+      
+      
         medicalHistoryData: {},
       };
 
@@ -172,10 +163,7 @@ const handleRowPress = row => {
 
       if (Object.keys(prescriptionData).length > 0) {
 
-        const labTests =
-          prescriptionData?.labtest?.map((item) => ({
-            testLabName: item.product_name,
-          })) || [];
+      
 
         extraFields = {
           weight: prescriptionData?.weight || "",
@@ -188,63 +176,37 @@ const handleRowPress = row => {
           bmiStatus: prescriptionData?.bmiStatus || "",
           bloodSugarTest: prescriptionData?.bloodSugar || "",
           sugarLevel: prescriptionData?.sugarLevel || "",
-          complaints: prescriptionData?.Complaints || [],
-          diagnosis: prescriptionData?.Diagnosis || [],
-          procedures: prescriptionData?.Procedures || [],
-          medicineIntake: prescriptionData?.medications || [],
-          labs: labTests || [],
-          advice: prescriptionData?.advice || [],
-          dietToAvoid: prescriptionData?.diet?.avoid || [],
-          dietToConsume: prescriptionData?.diet?.consume || [],
+          complaints:  [],
+          diagnosis:  [],
+          procedures:  [],
+          medicineIntake:  [],
+          labs:  [],
+          advice:  [],
+          dietToAvoid: [],
+          dietToConsume:  [],
           otherNote: prescriptionData?.otherNote || "",
           respiration: prescriptionData?.spo2 || "",
-          specialistName:prescriptionData?.referdata?.specialistName,
-          notes:prescriptionData?.referdata?.notes,
-          consultDietitian:prescriptionData?.diet?.chek,
-          clinicHospital:prescriptionData?.referdata?.clinicHospital,
-          medicineTag: "Yes"
+       
+         
+          
+         
+       
         };
       }
 
       const credentials = { ...baseCredentials, ...extraFields };
-      const followupText = prescriptionData?.followup?.text?.trim();
-      const inputDate = prescriptionData?.followup?.date;
-      let isoFormattedDate = null; // Default value
+    
 
-      if (inputDate && inputDate !== false) {
-        isoFormattedDate = formatDateToISO(inputDate);
-      }
-      if (prescriptionData?.followup?.date === false) {
-        credentials.followupDays = followupText || digital_id?.followupDays || "";
-        credentials.followupUnit = prescriptionData?.followup?.dosage || "days";
+    
+     
 
-      } else {
-        credentials.followupDate = isoFormattedDate;
-      }
-      if (credentials.followupDate) {
-        delete credentials.followupDays;
-        delete credentials.followupUnit;
-      }
-
-      if (prescriptionData?.Complaints?.length > 0) {
-        credentials.complaintsMetaData =
-          prescriptionData?.Complaints_metadata || [];
-      }
-
-      if (prescriptionData?.Diagnosis?.length > 0) {
-        credentials.diagnosisMetaData =
-          prescriptionData?.Diagnosis_metadata || [];
-      }
-
-      if (prescriptionData?.Procedures?.length > 0) {
-        credentials.procedureMetaData =
-          prescriptionData?.Procedures_metadata || [];
-      }
+    
 
     
 console.log("credentials",credentials);
 
-      const response = await vitalsubmit(credentials);
+       const response = await vitalsubmit(credentials);
+    console.log("response",response);
     
       
 
@@ -419,16 +381,7 @@ console.log("credentials",credentials);
           const prescriptionData = digital_Prescription[prescriptionId] || {};
 
           const dataMapping = {
-            'Complaints': prescriptionData?.Complaints,
-            'Diagnosis': prescriptionData?.Diagnosis,
-            'Procedures': prescriptionData?.Procedures,
-            'Medication': prescriptionData?.medications,
-            'Lab Test': prescriptionData?.labtest,
-            'Advice': prescriptionData?.advice,
-            'Diet': prescriptionData?.diet,
-            'Follow up': prescriptionData?.followup,
-            'Refer': prescriptionData?.referdata,
-            "LMP": prescriptionData?.lmp,
+           
             "Vitals": prescriptionData?.bloodSugar ||
               prescriptionData?.bmi || prescriptionData?.bmiStatus || prescriptionData?.bodyTemp || prescriptionData?.bpDiastolic ||
               prescriptionData?.bpSystolic || prescriptionData?.height || prescriptionData?.pulse || prescriptionData?.spo2 ||
@@ -453,12 +406,12 @@ console.log("credentials",credentials);
             </TouchableOpacity>
           );
         })}
-        <View style={{ flexDirection: "row", gap: 5 }}>
-          <CustomButton style={{ width: "50%", backgroundColor: "#145d89" }} title={'Preview'} onPress={handlePreview} />
-          <CustomButton style={{ width: "50%" }} onPress={handleSubmit} title={'Submit'} />
-        </View>
+      
       </ScrollView>
-
+      <View style={styles.buttonsContainer}>
+          <CustomButton style={{ width: "40%", backgroundColor: "#145d89",borderRadius:10 }} title={'Preview'} onPress={handlePreview} />
+          <CustomButton style={{ width: "40%" ,borderRadius:10}} onPress={handleSubmit} title={'Submit'} />
+        </View>
       <Modal
         animationType="slide"
         transparent={true}
@@ -590,6 +543,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: '#34495e',
   },
+  buttonsContainer: {
+    position: 'absolute',
+    gap:2,
+    bottom: 20,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingHorizontal: 10,
+    backgroundColor: 'white', // Optional: to make sure buttons are visible over the content
+    paddingVertical: 10, // Optional: Add some spacing
+  },
+  
   button: {
     backgroundColor: greenColor,
     height: 50,

@@ -22,6 +22,7 @@ import PdfViewer from './PdfViewer';
 
 const PaymentModal = ({ visible, onClose }) => {
   const { userdata, checkinData } = useContext(AppContext);
+console.log("checkinData",checkinData);
 
 
   const validDate = userdata?.data?.followupDays
@@ -134,7 +135,7 @@ const PaymentModal = ({ visible, onClose }) => {
       setServerOptions(checkinData.doctorDetails.additionalServices);
     }
   }, [checkinData]);
-
+  const token = userdata?.data?.token;
   const Service = checkinData?.doctorDetails?.additionalServices || [];
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [rows, setRows] = useState([
@@ -454,8 +455,10 @@ const PaymentModal = ({ visible, onClose }) => {
       }
 
     }
+    
+    
     const credentials = {
-      token: checkinData.token,
+      token: token,
       "isCheckedIn": true,
       "checkInDate": new Date().toISOString(),
       "status": 1,
@@ -472,12 +475,16 @@ const PaymentModal = ({ visible, onClose }) => {
       "otpVerified": false
 
     }
+  
+    
 
    
+console.log("credentials",credentials);
 
 
     try {
       const response = await checkin(credentials)
+      console.log("response chekin",response);
       
       if (response.msg === "Ok") {
         setRows([

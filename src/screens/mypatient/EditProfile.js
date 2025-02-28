@@ -47,6 +47,8 @@ const EditProfile = ({ navigation, route }) => {
   const uniqueId = uuid.v4();
 
   const { selectedItem } = route.params;
+  console.log(selectedItem);
+  
 
   const [gender, setGender] = useState('');
   const [inputputValue, setinputputValue] = useState([]);
@@ -75,7 +77,7 @@ const EditProfile = ({ navigation, route }) => {
 
   const [formErrors, setFormErrors] = useState({});
 
-  const token = userdata?.data?.auth_token;
+  const token = userdata?.data?.token;
   const [address, setAddress] = useState('');
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
@@ -93,52 +95,6 @@ const EditProfile = ({ navigation, route }) => {
     setHealthSchemeDropdownVisible(false);
     setFormData({ ...formData, healthScheme: item });
   };
-
-  //   const handleSubmit = async () => {
-  //     const datevalue=formData.dob
-  //     console.log("datevalue",datevalue);
-
-  //     const dateParts = datevalue.split('/'); 
-  // const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T00:00:00Z`; 
-
-  // formData.dob = formattedDate;
-
-  //     setFormData({
-  //       ...formData,
-  //       dob: dob,
-  //       relationship: inputputValue.relationship,
-  //     });
-  //     const credentials = {
-  //       token,
-
-  //       formData: formData,
-  //     };
-
-  // console.log("credentials",credentials);
-
-
-
-  //     try {
-  // //       const response = await updatePatientDetails(credentials);
-  // // console.log(response);
-
-
-
-  // //       if (response.msg === 'Ok') {
-  // //         updateSelectedPatient({
-  // //           _id: selectedItem.value._id,
-  // //           patient_id: selectedItem.value.profileId,
-  // //         });
-
-
-  // //         navigation.navigate('Details');
-  // //       } else {
-  // //         Alert.alert(response.msg);
-  // //       }
-  //     } catch (error) {
-  //       console.error(error.message);
-  //     }
-  //   };
 
   const handleSubmit = async () => {
     if (!dob) {
@@ -170,10 +126,13 @@ const EditProfile = ({ navigation, route }) => {
       token,
       formData: formData,
     };
+console.log(credentials);
 
 
     try {
       const response = await updatePatientDetails(credentials);
+      console.log("response",response);
+      
       if (response.msg === 'Ok') {
         updateSelectedPatient({
           _id: selectedItem.value._id,
@@ -265,14 +224,21 @@ const EditProfile = ({ navigation, route }) => {
       const credentials = {
         token,
         _id: selectedItem.value._id,
-        patient_id: selectedItem.value.profileId,
+        patientId: selectedItem.value.profileId,
+        doctorIds: userdata?.data?.doctorIds,
+        "doctorId": "ALL",
       };
+    
+     console.log("credentials",credentials);
+     
 
       const response = await mypatientgeninfo(credentials);
+      console.log("response",response);
+      
 
 
 
-      setinputputValue(response.docs[0]);
+      setinputputValue(response.doc);
     };
 
     fetchdata();
@@ -424,7 +390,7 @@ const EditProfile = ({ navigation, route }) => {
                 fetchDetails={true}
                 onPress={(data, details = null) => {
                   setAddress(data.description);
-                  setFormData({ ...formData, addressLineOne: data.description,location:{
+                  setFormData({ ...formData, addressLineOne: data.description,mapLocation:{
                     longitude:details.geometry.location.lat,
                     latitude:details.geometry.location.lng
                   } });

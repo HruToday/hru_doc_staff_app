@@ -37,18 +37,22 @@ const Familymembers = ({navigation}) => {
   const [familyMembers, setFamilyMembers] = useState([]);
 
   useEffect(() => {
-    const token = userdata?.data?.auth_token;
+    const token = userdata?.data?.token;
     const fetchData = async () => {
       const credentials = {
         token,
-        _id: familydetails._id,
-        patient_id: familydetails.patient_id,
+        patientId: familydetails._id,
+        // patientId: familydetails.patient_id,
       };
+      console.log("credentials",credentials);
+      
 
       try {
         const response = await getpatientfamily(credentials);
+        console.log("response",response);
+        
 
-        if (response?.docs) {
+        if (response.msg==="Ok") {
           setFamilyMembers(response.docs);
         }
       } catch (error) {
@@ -103,7 +107,11 @@ const Familymembers = ({navigation}) => {
          
           <View style={styles.card} key={member._id}>
             <View style={{alignItems: 'center'}}>
-              <Image source={{uri: member.imgUrl}} style={styles.userPhoto} />
+               <Image
+                 source={{
+                  uri: `https://beta.hru.today/show-uploaded.image?path=${item?.imgUrl?.path}` || 'https://beta.hru.today/doctor/:673d8b440d9b9d0acbc030a1/display.image',
+                }}
+                style={styles.userPhoto} /> 
               <Text style={styles.nameText}>
                 {`${member.firstName} ${member.lastName}`}
               </Text>
@@ -117,10 +125,10 @@ const Familymembers = ({navigation}) => {
               .join(' ')
                 }</Text>
             </View>
-            <View style={styles.infoRow}>
+            {/* <View style={styles.infoRow}>
               <Icon name="info-circle" size={20} color="#555" />
               <Text style={styles.infoText}>{member.age?.years} years</Text>
-            </View>
+            </View> */}
             <View style={styles.infoRow}>
               <Icon name="genderless" size={20} color="#555" />
               <Text style={styles.infoText}>{member.gender}</Text>

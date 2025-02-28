@@ -21,7 +21,7 @@ const ForgetpasswordModal = ({isVisible, onClose, navigation}) => {
       return;
     }
 
-    const credentials = {phone_no};
+    const credentials = {loginId:phone_no};
 
     try {
       const response = await forgotPassword(credentials);

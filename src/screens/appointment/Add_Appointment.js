@@ -49,9 +49,9 @@ const Add_Appointment = ({ navigation }) => {
   const [currentWeekOffset, setCurrentWeekOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
-  const { refreshPage, userdata, booklaterpatient, selectedLocationId, loctioncolorupdate } =
+  const {selectedDoctor, refreshPage, userdata, booklaterpatient, selectedLocationId, loctioncolorupdate } =
     useContext(AppContext);
-  const token = userdata?.data?.auth_token;
+  const token = userdata?.data?.token;
   const [patientData, setPatientData] = useState(null);
   const [date_display, setDate_display] = useState(
     new Date().toLocaleString('default', { month: 'long' })
@@ -59,47 +59,50 @@ const Add_Appointment = ({ navigation }) => {
 
 
   const [selectedItem, setSelecteditem] = useState("");
-  useEffect(() => {
-    loctioncolorupdate('white');
-    const fetchData = async () => {
-      const credentials = {
-        token: token,
-        patientId: booklaterpatient._id,
-        profileId: booklaterpatient.patient_id,
-      };
+  // useEffect(() => {
+  //   loctioncolorupdate('white');
+  //   const fetchData = async () => {
+  //     const credentials = {
+  //       token: token,
+  //       patientId: booklaterpatient._id,
+  //       profileId: booklaterpatient.patient_id,
+  //     };
 
 
-      try {
-        const response = await searchpatientbyid(credentials);
+  //     try {
+  //       const response = await searchpatientbyid(credentials);
         
 
 
-        setPatientData(response.docs[0]);
-      } catch (error) {
-        console.log('Error fetching data:', error.message);
-      }
-    };
+  //       setPatientData(response.docs[0]);
+  //     } catch (error) {
+  //       console.log('Error fetching data:', error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, [userdata, booklaterpatient]);
+  //   fetchData();
+  // }, [userdata, booklaterpatient]);
 
   
 
   useEffect(() => {
     const fetchingslots = async () => {
+      const selectedTimestamp = new Date(selectedDate).getTime();
       const credentialsBookSlots = {
         token: token,
-        clinic_address_id: selectedLocationId,
-        date: selectedDate,
+        doctorId: selectedDoctor.length > 0 ? selectedDoctor : "ALL",
+        nextStartDays: selectedTimestamp,
       };
+console.log("credentialsBookSlots",credentialsBookSlots);
 
       try {
         const response2 = await getnextWeekClinicTimeSlot(credentialsBookSlots);
+       console.log("response2",response2);
        
 
 
-        if (response2?.docs?.length > 0) {
-          const bookingdates = response2.docs[0]?.days || [];
+        if (response2?.msg==="ok") {
+          const bookingdates = response2.doc?.workLocationSlots[0]?.days|| [];
 
 
           const validBookingDates = bookingdates.filter(
