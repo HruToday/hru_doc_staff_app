@@ -211,7 +211,7 @@ console.log("credentials",credentials);
       
 
       if (response?.msg === "Ok") {
-        Digitalbutton_update({ _id: appointmentId }, "Edit Prescription");
+        Digitalbutton_update({ _id: appointmentId }, "Edit Vitals");
         navigation.navigate("WorkQueueMain");
       }
     } catch (error) {

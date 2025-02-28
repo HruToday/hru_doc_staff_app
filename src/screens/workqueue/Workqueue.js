@@ -300,8 +300,8 @@ const Workqueue = ({ navigation }) => {
                     >
                       <Text style={styles.actionButtonText}>
                         {selectedItemId === item._id
-                          ? 'Digital Prescription'
-                          : digital_PrescriptionButton[item._id] || 'Digital Prescription'}
+                          ? 'Vitals'
+                          : digital_PrescriptionButton[item._id] || 'Vitals'}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -316,7 +316,7 @@ const Workqueue = ({ navigation }) => {
                         : workqueuebutton[item._id] || 'Manual Prescription'}
                     </Text>
                   </TouchableOpacity> */}
-                  {!item.isPrescription && (
+                  {!item.isVital && (
                     <TouchableOpacity
                       style={styles.actionButton}
                       onPress={() => handleButtonPress(item)}
@@ -329,7 +329,7 @@ const Workqueue = ({ navigation }) => {
                     </TouchableOpacity>
                   )}
 
-                  {workqueuebutton[item._id] === 'Edit Prescription' || item.prescriptionUpload || item.isPrescription ? (
+                  {workqueuebutton[item._id] === 'Edit Prescription' || item.prescriptionUpload || item.isVital ? (
                     <TouchableOpacity
                       style={styles.actionButton}
                       onPress={() => {
@@ -582,7 +582,7 @@ console.log("credentials",credentials);
 
               if (doc.onlineAppointment || doc.cancelCheckIn || doc.noShow || doc.isCharge || doc.prescriptionUpload || doc.isPrescription || doc.doctorDetails.followupDays
                 || doc.advice || doc.complaints || doc.complaintsMetaData || doc.diagnosis || doc.diagnosisMetaData || doc.dietToAvoid || doc.dietToConsume || doc.followupUnit || doc.procedureMetaData || doc.procedures
-                || doc.vital || doc.labs || doc.medicineIntake || doc.notes || doc.clinicHospital || doc.specialistName
+                || doc.vital || doc.labs || doc.medicineIntake || doc.notes || doc.clinicHospital || doc.specialistName||doc.isVital
               ) {
                 extractedPatientDetails.push({
                   ...doc.patientDetails,
@@ -627,7 +627,8 @@ console.log("credentials",credentials);
                   medicineIntake: doc.medicineIntake,
                   notes: doc.notes,
                   clinicHospital: doc.clinicHospital,
-                  specialistName: doc.specialistName
+                  specialistName: doc.specialistName,
+                  isVital:doc.isVital
 
 
                 });
@@ -673,7 +674,8 @@ console.log("credentials",credentials);
                   medicineIntake: doc.medicineIntake,
                   notes: doc.notes,
                   clinicHospital: doc.clinicHospital,
-                  specialistName: doc.specialistName
+                  specialistName: doc.specialistName,
+                  isVital:doc.isVital
 
                 });
               }
