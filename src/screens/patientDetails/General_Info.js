@@ -51,7 +51,7 @@ const SecondColumn = ({ data }) => (
 const General_Info = ({ navigation }) => {
   const [patientdata, setPatientdata] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { refreshPage, userdata, selectedPatient, selectedLocationId, booklaterData } =
+  const { selectedDoctor,selectedClinic,refreshPage, userdata, selectedPatient, selectedLocationId, booklaterData } =
     useContext(AppContext);
   const [bookappointment, setbookappointment] = useState([]);
   const token = userdata?.data?.token;
@@ -178,12 +178,16 @@ console.log("credentialsappointment",credentialsappointment);
       token: token,
       patientId: selectedPatient._id,
       profileId: selectedPatient.patient_id,
-      workAddressId: selectedLocationId,
+      doctorId: selectedDoctor.length > 0 ? selectedDoctor : "ALL",
+      workAddressId: selectedClinic.length > 0 ? selectedClinic : "ALL",
       uid: uniqueId,
     };
+    console.log("credentials",credentials);
+    
 
     try {
       const response = await bookAppointmentNowPatient(credentials);
+console.log("response",response);
 
       if (response.msg === 'Slot booked successfully.') {
         refreshPage(true);

@@ -17,21 +17,24 @@ import { downloadFile } from '../../components/FileDownloader';
 import PdfViewer from '../../components/PdfViewer';
 
 const Medical_History = () => {
-  const { userdata,selectedPatient } = useContext(AppContext);
+  const { userdata,selectedPatient,selectedDoctor } = useContext(AppContext);
  
   const [med_data, setMed_Data] = useState(null);
   const [selectedPdf, setSelectedPdf] = useState(null);
 
   useEffect(() => {
+    console.log("ywa");
+    
     const handlefetch = async () => {
       const token = userdata?.data?.token;
       const credentials = {
         token: token,
         patientId: selectedPatient._id,
         profileId: selectedPatient.patient_id,
-        "doctorId": "ALL",
-        doctorIds: userdata?.data?.doctorIds,
+        doctorId: selectedDoctor.length > 0 ? selectedDoctor : "ALL",
+       
       };
+console.log("credentials",credentials);
 
 
 
@@ -39,7 +42,7 @@ const Medical_History = () => {
         const response = await patientMedicalHistory(credentials);
         console.log(response);
         
-        setMed_Data(response.doc); // Assuming response.doc contains the necessary data
+         setMed_Data(response.doc); // Assuming response.doc contains the necessary data
       } catch (error) {
         console.log(error.message); // Fixed typo from error.massage to error.message
       }
@@ -167,6 +170,7 @@ const Medical_History = () => {
 
       {/* Table Section */}
     </ScrollView>
+   
 
   );
 };

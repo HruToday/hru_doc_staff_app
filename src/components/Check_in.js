@@ -21,11 +21,11 @@ import PdfViewer from './PdfViewer';
 
 
 const PaymentModal = ({ visible, onClose }) => {
-  const { userdata, checkinData } = useContext(AppContext);
-console.log("checkinData",checkinData);
+  const {  checkinfollowup, userdata, checkinData } = useContext(AppContext);
 
 
-  const validDate = userdata?.data?.followupDays
+  const validDate = checkinfollowup?.followupDays
+
 
 
 
@@ -406,6 +406,8 @@ console.log("checkinData",checkinData);
       setIsSubmitDisabled(false);
     }
   };
+  console.log("checkinData",checkinData);
+  
   const hanndleClick = async () => {
 
     const servicies = []
@@ -456,6 +458,7 @@ console.log("checkinData",checkinData);
 
     }
     
+   
     
     const credentials = {
       token: token,
@@ -463,7 +466,7 @@ console.log("checkinData",checkinData);
       "checkInDate": new Date().toISOString(),
       "status": 1,
       "validTillDate": new Date(new Date().setDate(new Date().getDate() + validDate)).toISOString(),
-      "appointmentId": checkinData._id,
+       "appointmentId": checkinData._id,
       "invoice": {
         "services": servicies,
         "totalAmt": remainingBalance.totalDue,

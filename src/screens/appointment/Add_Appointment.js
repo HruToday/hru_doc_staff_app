@@ -28,6 +28,7 @@ import { Picker } from '@react-native-picker/picker';
 import {
   bookappoforPatient,
   getnextWeekClinicTimeSlot,
+  mypatientgeninfo,
   searchpatientbyid,
 } from '../../api/authService';
 import DropDowns from '../../components/DropDowns';
@@ -49,7 +50,7 @@ const Add_Appointment = ({ navigation }) => {
   const [currentWeekOffset, setCurrentWeekOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
-  const {selectedDoctor, refreshPage, userdata, booklaterpatient, selectedLocationId, loctioncolorupdate } =
+  const {selectedPatient,selectedDoctor, refreshPage, userdata, booklaterpatient, selectedLocationId, loctioncolorupdate } =
     useContext(AppContext);
   const token = userdata?.data?.token;
   const [patientData, setPatientData] = useState(null);
@@ -59,29 +60,34 @@ const Add_Appointment = ({ navigation }) => {
 
 
   const [selectedItem, setSelecteditem] = useState("");
-  // useEffect(() => {
-  //   loctioncolorupdate('white');
-  //   const fetchData = async () => {
-  //     const credentials = {
-  //       token: token,
-  //       patientId: booklaterpatient._id,
-  //       profileId: booklaterpatient.patient_id,
-  //     };
+  useEffect(() => {
+    loctioncolorupdate('white');
+    const fetchData = async () => {
+      const credentials = {
+        token,
+        _id: selectedPatient._id,
+        patientId: selectedPatient.patient_id,
+        doctorIds: userdata?.data?.doctorIds,
+         "doctorId": "ALL",
+      };
+
+console.log("credentials",credentials);
 
 
-  //     try {
-  //       const response = await searchpatientbyid(credentials);
+      try {
+        const response = await mypatientgeninfo(credentials);
         
+console.log("response",response);
 
 
-  //       setPatientData(response.docs[0]);
-  //     } catch (error) {
-  //       console.log('Error fetching data:', error.message);
-  //     }
-  //   };
+        setPatientData(response.doc);
+      } catch (error) {
+        console.log('Error fetching data:', error.message);
+      }
+    };
 
-  //   fetchData();
-  // }, [userdata, booklaterpatient]);
+    fetchData();
+  }, [userdata, booklaterpatient]);
 
   
 
@@ -165,6 +171,7 @@ console.log("credentialsBookSlots",credentialsBookSlots);
   const openCalendar = () => {
     setCalendarVisible(true);
   };
+console.log("patientData",patientData);
 
   const onDateSelect = (event, date) => {
     if (date) {
@@ -190,7 +197,7 @@ console.log("credentialsBookSlots",credentialsBookSlots);
     setBookingSlot(itemValue?.timings?.flatMap((timing) => timing.slots) || []);
   };
   const handlePress = item => {
-    console.log("item",item);
+   
     
     setSelectedSlot(item.display);
     setTimeSlots(item);
@@ -199,7 +206,8 @@ console.log("credentialsBookSlots",credentialsBookSlots);
   const handleBookforLater = async () => {
     if (loading) return; // Prevent multiple submissions
 
-    setLoading(true);
+
+   setLoading(true);
     const credentials_bookforlater = {
       token: token,
       patientId: patientData._id,
@@ -207,15 +215,20 @@ console.log("credentialsBookSlots",credentialsBookSlots);
       workAddressId: timeslots.workAddressId,
       startTime: timeslots.id,
       endTime: timeslots.endTime,
-      uid: timeslots.uid,
+      uid: timeslots.uid, 
+      doctorId: selectedDoctor.length > 0 ? selectedDoctor : "ALL",
       bookedBy: 'DOCTOR',
-      patientName: patientData.firstName && patientData.lastName,
-      patientNumber: patientData.mobile_no,
+      patientName: `${patientData.firstName || ''} ${patientData.lastName || ''}`.trim(),
+
+      patientNumber: patientData.mobileNumber,
     };
-    console.log(credentials_bookforlater);
+
+    console.log("credentials_bookforlater",credentials_bookforlater);
     
     try {
       const response = await bookappoforPatient(credentials_bookforlater);
+      console.log("response",response);
+      
       if (response.msg === 'Slot booked successfully.') {
         refreshPage(true);
         navigation.navigate('Work Queue', { screen: 'WorkQueueMain' });
@@ -227,7 +240,7 @@ console.log("credentialsBookSlots",credentialsBookSlots);
       console.log(error.massage);
 
     } finally {
-      setLoading(false); // Stop loading
+       setLoading(false); // Stop loading
     }
 
 

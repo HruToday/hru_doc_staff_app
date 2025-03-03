@@ -106,35 +106,38 @@ export const getpatientfamily = async (credentials) => {
     throw error; 
   }
 };
-
+//Done
 export const mypatientMedHist = async (credentials) => {
   try {
-    const data = await apiClient('mypatientMedHist', 'POST', credentials);
+    const data = await apiClient('get-patient-prescription-history.json', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('mypatientMedHist  Error:', error.message);
+    console.error('get-patient-prescription-history.json  Error:', error.message);
     throw error; 
   }
 };
 
+
+//Done
 export const bookAppointmentNowPatient = async (credentials) => {
   try {
-    const data = await apiClient('bookAppointmentNowPatient', 'POST', credentials);
+    const data = await apiClient('save-appointment-now-for-patient.json', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('bookAppointmentNowPatient  Error:', error.message);
+    console.error('save-appointment-now-for-patient.json  Error:', error.message);
     throw error; 
   }
 };
 export const searchpatientbyid = async (credentials) => {
   try {
-    const data = await apiClient('searchpatientbyid', 'POST', credentials);
+    const data = await apiClient('searchpatientbyId', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('searchpatientbyid  Error:', error.message);
+    console.error('searchpatientbyId  Error:', error.message);
     throw error; 
   }
 };
+//Done
 export const getnextWeekClinicTimeSlot = async (credentials) => {
   try {
     const data = await apiClient('slots-for-next-set-for-staff.json', 'POST', credentials);
@@ -158,13 +161,13 @@ export const addNewPatientFamilyMember = async (credentials) => {
 
 
 //BOOK FOR LATER
-
+//Done
 export const bookappoforPatient = async (credentials) => {
   try {
-    const data = await apiClient('bookappoforPatient', 'POST', credentials);
+    const data = await apiClient('save-appointment-for-patient.json', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('bookappoforPatient  Error:', error.message);
+    console.error('save-appointment-for-patient.json  Error:', error.message);
     throw error; 
   }
 };
@@ -210,10 +213,10 @@ export const prescriptionUpload = async (credentials) => {
 //Done
 export const patientMedicalHistory = async (credentials) => {
   try {
-    const data = await apiClient('get-patient-medical-history.json', 'POST', credentials);
+    const data = await apiClient('patientMedicalHistory.json', 'POST', credentials);
     return data; 
   } catch (error) {
-    console.error('get-patient-medical-history.json  Error:', error.message);
+    console.error('patientMedicalHistory.json', error.message);
     throw error; 
   }
 };

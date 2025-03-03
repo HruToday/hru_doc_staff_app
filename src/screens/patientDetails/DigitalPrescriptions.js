@@ -152,6 +152,7 @@ const DigitalPrescriptions = ({ data }) => {
                 </View>
             </Modal>
         </View>
+       
     );
 };
 

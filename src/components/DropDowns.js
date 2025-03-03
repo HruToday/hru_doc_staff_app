@@ -1,19 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AppContext } from '../context _api/Context';
 
 const DropDowns = () => {
-  const { refreshPage, selectedClinic,
-    selectedDoctor,
-    selectclinic,
-    selectdocotrs,userdata } = useContext(AppContext);
-  
+  const { refreshPage, selectedClinic, Chekinfollowup_Data, selectedDoctor, selectclinic, selectdocotrs, userdata } = useContext(AppContext);
+
   const doctors = userdata?.data?.doctors || [];
- const clinics = userdata?.data?.addresses || [];
+  const clinics = userdata?.data?.addresses || [];
 
-
+  // Filter clinics based on selected doctor
+  const filteredClinics = selectedDoctor
+    ? clinics.filter(clinic => clinic.doctorId === selectedDoctor)
+    : clinics;
 
   return (
     <View style={styles.container}>
@@ -24,13 +24,17 @@ const DropDowns = () => {
           <View style={styles.dropdown_wrapper}>
             <Picker
               selectedValue={selectedDoctor}
-              onValueChange={(itemValue) => {refreshPage(true),selectdocotrs(itemValue)}}
+              onValueChange={(itemValue) => {
+                refreshPage(true);
+                selectdocotrs(itemValue);
+              }}
               style={styles.picker}
             >
               <Picker.Item label="All" value="" />
-              {doctors.map((doctor) => (
-                <Picker.Item key={doctor._id} label={doctor.doctorName} value={doctor._id} />
-              ))}
+              {doctors.map((doctor) => {
+                Chekinfollowup_Data(doctor);
+                return <Picker.Item key={doctor._id} label={doctor.doctorName} value={doctor._id} />;
+              })}
             </Picker>
             <MaterialCommunityIcons name="chevron-down" size={20} style={styles.dropdown_icon} />
           </View>
@@ -42,11 +46,14 @@ const DropDowns = () => {
           <View style={styles.dropdown_wrapper}>
             <Picker
               selectedValue={selectedClinic}
-              onValueChange={(itemValue) => {refreshPage(true),selectclinic(itemValue)}}
+              onValueChange={(itemValue) => {
+                refreshPage(true);
+                selectclinic(itemValue);
+              }}
               style={styles.picker}
             >
               <Picker.Item label="All" value="" />
-              {clinics.map((clinic) => (
+              {filteredClinics.map((clinic) => (
                 <Picker.Item key={clinic.id} label={clinic.workLocation} value={clinic.id} />
               ))}
             </Picker>

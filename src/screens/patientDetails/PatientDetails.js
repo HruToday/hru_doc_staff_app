@@ -27,8 +27,8 @@ const PatientDetails = ({navigation}) => {
   const [selectedContent, setSelectedContent] = useState('General Info');
 
   const [selectedSubContent, setSelectedSubContent] = useState('Digital Prescription');
-  const {userdata, selectedPatient} = useContext(AppContext);
-  const token = userdata?.data?.auth_token;
+  const {selectedDoctor,userdata, selectedPatient} = useContext(AppContext);
+  const token = userdata?.data?.token;
   const [patient_profile, setPatient_Profile] = useState([]);
   const [patienthistory, setpatienthistory] = useState(null);
   const [prescription, setPrescription] = useState([]);
@@ -79,38 +79,39 @@ const PatientDetails = ({navigation}) => {
       setSelectedSubContent('Digital Prescription');
     }
   }, [selectedContent]);
-  // useEffect(() => {
-  //   const fetchdata = async () => {
-  //     if (selectedContent === 'General Info') {
-  //       try {
-  //         const credentials2 = {
-  //           token,
-  //           patientId: selectedPatient._id,
-  //           profileId: selectedPatient.patient_id,
-  //         };
-  //         const response2 = await searchpatientbyid(credentials2);
-  //         setPatient_Profile(response2.docs);
-  //         const credentials = {
-  //           token,
-  //           _id: selectedPatient._id,
-  //           patient_id: selectedPatient.patient_id,
-  //         };
-  //         const response = await mypatientMedHist(credentials);
+  useEffect(() => {
+    const fetchdata = async () => {
+      if (selectedContent === 'General Info') {
+        try {
+        
+        
+        
+          const credentials = {
+            token,
+            patientId: selectedPatient._id,
+            profileId: selectedPatient.patient_id,
+            doctorIds: userdata?.data?.doctorIds,
+            doctorId: selectedDoctor.length > 0 ? selectedDoctor : "ALL",
+          };
+          console.log("credentials",credentials);
+          
+          const response = await mypatientMedHist(credentials);
+         console.log("response",response);
          
          
           
-  //         setPrescription(response.doc.prescriptions);
-  //         setReports(response.doc.reports);
-  //         setDigitalPrescriptions(response.doc.digitalPrescriptions)
+          setPrescription(response.doc.prescriptions);
+          setReports(response.doc.reports);
+          setDigitalPrescriptions(response.doc.digitalPrescriptions)
 
         
-  //       } catch (error) {
-  //         console.log('Error fetching medical history:', error.message);
-  //       }
-  //     }
-  //   };
-  //   fetchdata();
-  // }, [selectedContent, selectedPatient, token]);
+        } catch (error) {
+          console.log('Error fetching medical history:', error.message);
+        }
+      }
+    };
+    fetchdata();
+  }, [selectedContent, selectedPatient, token]);
 
   
   
@@ -140,7 +141,7 @@ const PatientDetails = ({navigation}) => {
         </View>
         {selectedContent === 'Prescriptions and Reports' ? (
           <View>
-            <View style={styles.profileContainer}>
+            {/* <View style={styles.profileContainer}>
               <View style={styles.profileLeft}>
                 <Image
                   source={{
@@ -170,7 +171,7 @@ const PatientDetails = ({navigation}) => {
                   color={greenColor}
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
             <View>
               <ButtonScroller
                 scrollview={{

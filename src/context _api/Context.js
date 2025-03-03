@@ -5,6 +5,7 @@ export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
    const [selectedDoctor, setSelectedDoctor] = useState('');
+   const [checkinfollowup,setcheckinfollowup]=useState({})
     const [selectedClinic, setSelectedClinic] = useState('');
   const [userdata, setUserData] = useState(null);
   const [forgetnumber, setForgetNumber] = useState(null);
@@ -98,9 +99,14 @@ export const AppProvider = ({ children }) => {
   const GenderToggle = data => {
     setGendetoggle(data);
   };
+  
+  const Chekinfollowup_Data = data => {
+    setcheckinfollowup(data);
+  };
   const ItemData = data => {
     setItem(data);
   };
+
   const Selected_Tag = data => {
     setSelectedTags(data);
   };
@@ -212,6 +218,8 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
+        checkinfollowup,
+        Chekinfollowup_Data,
         selectedClinic,
         selectedDoctor,
         selectclinic,
